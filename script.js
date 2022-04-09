@@ -4,6 +4,8 @@ var dayStart = "am";
 var dayLength = 12;
 var timeSlot = document.getElementById('timeSlots');
 var scheduleContent = document.querySelector(".schedule");
+var houlyText = "";
+var i = 0;
 
 // displays the date on the top of the page
 var displayDate = function() {
@@ -23,24 +25,32 @@ var saveWds =function() {
 var loadTasks = function(){
     var savedTasks = localStorage.getItem("WDS");
     if (!savedTasks) {
-        console.log("Saved Task NOT Found");
+        // console.log("Saved Task NOT Found");
         return false;        
     }
-    console.log("Saved Task Found");
+    // console.log("Saved Task Found");
 
     // parse into array of objects
   savedTasks = JSON.parse(savedTasks);
   console.log(savedTasks);
-  for (var i = 0; i < savedTasks.length; i++) {
+  
+  for (var e = 0; e < savedTasks.length; e++) {
     // pass each task object into the `createTaskEl()` function
-    console.log(savedTasks[i]);
-    
+
+    if (parseInt(savedTasks[e].time) === i) {
+        houlyText = savedTasks[e].text;
+        break;
+    }
+    else {
+        houlyText="";
+    }     
   }
 };
 
 // creates the hourly time slots for the work day schedule dynamicly
 var createWD = function() {
     var workDay = startTime + dayLength;
+        
     for (i = startTime; i < workDay; i++) {
         var dailyHours = document.createElement("div");
         hourlySlot = i;
@@ -62,10 +72,12 @@ var createWD = function() {
         var morningNight =morningNight[1];
        
         if (morningNight == 'PM') {
-            currentHour = currentHour + 12;
-            
+            if (currentHour !== 12) {
+                currentHour = currentHour + 12;
+            };    
         };
-        console.log(currentHour , i);
+        
+        // sets the hourly Colors
         if (currentHour === i) {
             var timeBlock = "present";
         } else if (currentHour < i) {
@@ -74,39 +86,42 @@ var createWD = function() {
             var timeBlock = "past";
         };
 
-        console.log(currentHour);
-        
+        loadTasks();
+       
+        // creats the html content for the schedule
         $(scheduleContent).append (
         "<div class='row'> "+
             "<div class='hour input-group col-1'>"+
                 "<p class='time-block'>"+ hourlySlot +" "+ dayStart+"</p>"+
             "</div>"+
             "<div class='input-group col-10 form-group'>"+
-                "<textarea id=text"+ i +" class='form-control textborder "+ timeBlock +"' rows='2' style='resize:none' name="+i+"></textarea>"+
-                "<button class='col-1 btn saveBtn' data-btn-id = 'btn"+i+"' value = 'text"+i+"'><span class='oi oi-lock-locked'></span></button>"+
+                "<textarea id=text"+ i +" class='form-control textborder "+ timeBlock +"' rows='2' style='resize:none' name="+i+">"+ houlyText +"</textarea>"+
+                "<button class='col-1 btn saveBtn' data-btn-id = "+i+" value = 'text"+i+"'><span class='oi oi-lock-locked'></span></button>"+
             "</div>"+
         "</div> ");
+        console.log(houlyText[i]);
     }  
-    loadTasks();
+    // saves when button is clicked
+    $(".saveBtn").click(function(event) {
+        var  textValue= event.target.value
+        var taskText = $("#"+ textValue).val();
+        var taskTime = event.target.getAttribute("data-btn-id");
+        var simpelDate = moment().format('l');
+        // save in array
+        wds.push ({
+            date: simpelDate,
+            time: taskTime,
+            text: taskText
+        });
+        saveWds();
+    });
+   
+    
 }
 
-// save button pressed
-$(".saveBtn").click(function() {
-    console.log("saveButton");
-    var taskText = $("#text9").val();
-    var taskTime = "9";
-    var simpelDate = moment().format('l');
-    // save in array
-    wds.push ({
-        date: simpelDate,
-        time: taskTime,
-        text: taskText
-    });
-    saveWds();
-});
+
 
 displayDate();
+
 createWD();
 
-// listens for the save button
-// scheduleContent.addEventListener("click", taskSaveBtn);
