@@ -6,21 +6,21 @@ var timeSlot = document.getElementById('timeSlots');
 var scheduleContent = document.querySelector(".schedule");
 var houlyText = "";
 var i = 0;
+var saveTasks = "";
+
 
 // displays the date on the top of the page
 var displayDate = function() {
     var currentDate = moment().format('dddd[,] MMM Do YYYY');
     document.querySelector("#currentDay").innerHTML = currentDate;
-    console.log(currentDate); 
-    
 };     
 
 // saves hourly task
 var saveWds =function() {
+    
     localStorage.setItem("WDS", JSON.stringify(wds));
+    
 };
-
-
 
 var loadTasks = function(){
     var savedTasks = localStorage.getItem("WDS");
@@ -32,20 +32,24 @@ var loadTasks = function(){
 
     // parse into array of objects
   savedTasks = JSON.parse(savedTasks);
-  console.log(savedTasks);
   
   for (var e = 0; e < savedTasks.length; e++) {
     // pass each task object into the `createTaskEl()` function
+    
 
     if (parseInt(savedTasks[e].time) === i) {
         houlyText = savedTasks[e].text;
+        
         break;
     }
     else {
         houlyText="";
     }     
   }
+  
 };
+
+
 
 // creates the hourly time slots for the work day schedule dynamicly
 var createWD = function() {
@@ -99,26 +103,29 @@ var createWD = function() {
                 "<button class='col-1 btn saveBtn' data-btn-id = "+i+" value = 'text"+i+"'><span class='oi oi-lock-locked'></span></button>"+
             "</div>"+
         "</div> ");
-        console.log(houlyText[i]);
+        
     }  
     // saves when button is clicked
     $(".saveBtn").click(function(event) {
-        var  textValue= event.target.value
+        var  textValue= event.target.value;
         var taskText = $("#"+ textValue).val();
         var taskTime = event.target.getAttribute("data-btn-id");
         var simpelDate = moment().format('l');
+             
         // save in array
         wds.push ({
-            date: simpelDate,
+            // date: simpelDate,
             time: taskTime,
             text: taskText
         });
-        saveWds();
+       
+        saveWds(saveTasks);
+        
     });
    
     
+    
 }
-
 
 
 displayDate();

@@ -14,3 +14,10 @@ It will color code the hour for past, present and future.
 ![JQuery](https://img.shields.io/badge/jQuery-0769AD?plastic&logo=jquery&logoColor=white)
 
 ![ScreenShot](./images/screenshot.jpg)
+
+
+### Links
+***
+GitHub Repository: <https://github.com/Wizzle13/my-daily-planner>
+
+GitHub URL: <https://wizzle13.github.io/my-daily-planner/>
