@@ -39,7 +39,11 @@ var loadTasks = function(){
 
     if (parseInt(savedTasks[e].time) === i) {
         houlyText = savedTasks[e].text;
-        
+        wds.push ({
+            
+            time: savedTasks[e].time,
+            text: savedTasks[e].text
+        });
         break;
     }
     else {
@@ -111,14 +115,17 @@ var createWD = function() {
         var taskText = $("#"+ textValue).val();
         var taskTime = event.target.getAttribute("data-btn-id");
         var simpelDate = moment().format('l');
-             
+        
+        // var existingWds = JSON.parse(localStorage.getItem("WDS"));
+        // if(existingWds == null) existingWds = [];
+
         // save in array
         wds.push ({
             // date: simpelDate,
             time: taskTime,
             text: taskText
         });
-       
+        // wds.push(existingWds);
         saveWds(saveTasks);
         
     });

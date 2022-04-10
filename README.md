@@ -13,6 +13,8 @@ It will color code the hour for past, present and future.
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?plastic&logo=bootstrap&logoColor=white)
 ![JQuery](https://img.shields.io/badge/jQuery-0769AD?plastic&logo=jquery&logoColor=white)
 
+![Google%20Analytics](https://img.shields.io/badge/Google%20Analytics-E37400?plastic&logo=googleanalytics&logoColor=white)
+
 ![ScreenShot](./images/screenshot.jpg)
 
 
